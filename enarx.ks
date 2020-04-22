@@ -20,7 +20,7 @@ repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?re
 repo --name=enarx --baseurl=https://download.copr.fedorainfracloud.org/results/npmccallum/enarx/fedora-$releasever-$basearch/
 
 rootpw --lock --iscrypted locked
-user --name=npmccallum --groups=wheel --plaintext --password=foo
+user --name=npmccallum --groups=wheel --lock
 sshkey --username=npmccallum "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIoZP5bZedmrj/lidLkKXhvZwwl9Pj5VxLV22nXhkijt7UJhSUX/rOV4Kg/wmR5ptMjGyE4PPSHmCEzXvQnpyMU= nathaniel@mccallum.life"
 
 %packages
@@ -48,6 +48,11 @@ zram
 %end
 
 %post
+# Allow users in the wheel group to use sudo without a password
+install -o root -g root -m 600 /dev/stdin /etc/sudoers.d/nopasswd <<EOF
+%wheel	ALL=(ALL)	NOPASSWD: ALL
+EOF
+
 # Use systemd-networkd and systemd-resolved
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 rm -f /etc/sysconfig/network-scripts/ifcfg-*
