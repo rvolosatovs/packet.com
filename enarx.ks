@@ -19,6 +19,9 @@ repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?re
 #repo --name=updates-testing --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=updates-testing-f$releasever&arch=$basearch
 repo --name=enarx --baseurl=https://download.copr.fedorainfracloud.org/results/npmccallum/enarx/fedora-$releasever-$basearch/
 
+group --name=sgx
+group --name=sev
+
 ## User Policy
 ## 1. User names MUST match GitHub accounts
 ## 2. Users MUST be locked
@@ -70,6 +73,14 @@ zram
 %end
 
 %post
+# Give SGX and SEV device node access to their respective groups
+cat > /etc/udev/rules.d/50-sgx.rules <<EOF
+SUBSYSTEM=="sgx", KERNEL=="sgx/provision", GROUP="sgx", MODE="0660"
+SUBSYSTEM=="sgx", KERNEL=="sgx/enclave", MODE="0666"
+EOF
+
+echo 'KERNEL=="sev", MODE="0660", GROUP="sev"' > /etc/udev/rules.d/50-sev.rules
+
 # Use systemd-networkd and systemd-resolved
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 rm -f /etc/sysconfig/network-scripts/ifcfg-*
