@@ -8,9 +8,8 @@ services --enabled=sshd,systemd-networkd,systemd-resolved,chronyd,zram-swap
 network --bootproto=dhcp --device=link --activate
 reboot
 
-zerombr
-clearpart --all --initlabel --disklabel=gpt
-autopart --type=plain --noswap
+%include /run/part-include
+
 bootloader --timeout=1
 
 url --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
@@ -91,4 +90,37 @@ Type=ether
 [Network]
 DHCP=yes
 EOF
+%end
+
+%pre
+if [[ -b /dev/disk/by-label/boot ]] \
+   && [[ -b /dev/disk/by-label/root ]] \
+   && [[ -b /dev/disk/by-label/home ]] ; then
+
+   # in case we have UEFI ESP
+   if [[ -b '/dev/disk/by-partlabel/EFI\x20System\x20Partition' ]]; then
+      cat > /run/part-include <<EOF
+part /boot/efi --onpart=disk/by-partlabel/EFI\\\\x20System\\\\x20Partition --fstype vfat
+EOF
+   fi
+
+   # standard layout, don't repartition and keep /home
+   cat >> /run/part-include <<EOF
+part /boot --label=boot --onpart=disk/by-label/boot --fstype xfs
+part /     --label=root --onpart=disk/by-label/root --fstype xfs
+part /home --label=home --onpart=disk/by-label/home --noformat
+EOF
+
+else
+
+   # fresh partitioning and format
+   cat > /run/part-include <<EOF
+zerombr
+clearpart  --all --initlabel --disklabel=gpt
+reqpart
+part /boot --label=boot --fstype xfs --size 512
+part /     --label=root --fstype xfs --size 20480
+part /home --label=home --fstype xfs --size 1 --grow
+EOF
+fi
 %end
