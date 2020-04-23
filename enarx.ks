@@ -25,8 +25,9 @@ repo --name=enarx --baseurl=https://download.copr.fedorainfracloud.org/results/n
 ## 3. Users MUST define an ssh key
 ## 4. Users MAY have access to the sgx/sev groups
 rootpw --lock --iscrypted locked
+sshkey --username=root "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIoZP5bZedmrj/lidLkKXhvZwwl9Pj5VxLV22nXhkijt7UJhSUX/rOV4Kg/wmR5ptMjGyE4PPSHmCEzXvQnpyMU= npmccallum@redhat.com"
 
-user --name=npmccallum --groups=wheel --lock
+user --name=npmccallum --lock
 sshkey --username=npmccallum "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIoZP5bZedmrj/lidLkKXhvZwwl9Pj5VxLV22nXhkijt7UJhSUX/rOV4Kg/wmR5ptMjGyE4PPSHmCEzXvQnpyMU= npmccallum@redhat.com"
 
 user --name=mbestavros --lock
@@ -69,11 +70,6 @@ zram
 %end
 
 %post
-# Allow users in the wheel group to use sudo without a password
-install -o root -g root -m 600 /dev/stdin /etc/sudoers.d/nopasswd <<EOF
-%wheel	ALL=(ALL)	NOPASSWD: ALL
-EOF
-
 # Use systemd-networkd and systemd-resolved
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 rm -f /etc/sysconfig/network-scripts/ifcfg-*
