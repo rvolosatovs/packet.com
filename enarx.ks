@@ -74,11 +74,11 @@ zram
 %post
 # Give SGX and SEV device node access to their respective groups
 cat > /etc/udev/rules.d/50-sgx.rules <<EOF
-SUBSYSTEM=="sgx", KERNEL=="sgx/provision", GROUP="sgx", MODE="0660"
-SUBSYSTEM=="sgx", KERNEL=="sgx/enclave", MODE="0666"
+SUBSYSTEM=="misc", KERNEL=="provision", GROUP="sgx", MODE="0660"
+SUBSYSTEM=="misc", KERNEL=="enclave", GROUP="sgx", MODE="0666"
 EOF
 
-echo 'KERNEL=="sev", MODE="0660", GROUP="sev"' > /etc/udev/rules.d/50-sev.rules
+echo 'KERNEL=="sev", MODE="0664", GROUP="sev"' > /etc/udev/rules.d/50-sev.rules
 
 # Use systemd-networkd and systemd-resolved
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
