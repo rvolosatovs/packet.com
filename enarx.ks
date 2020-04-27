@@ -57,6 +57,13 @@ chrony
 kernel
 zram
 
+strace
+git
+gcc
+musl-gcc
+make
+podman
+
 -dracut-config-generic
 -dracut-config-rescue
 -xkeyboard-config
