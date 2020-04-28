@@ -1,6 +1,6 @@
 #!ipxe
 
-set base https://sjc.edge.kernel.org/fedora-buffet/fedora/linux/releases/test/32_Beta/Server/x86_64/os
+set base https://sjc.edge.kernel.org/fedora-buffet/fedora/linux/releases/32/Server/x86_64/os
 set ks https://raw.githubusercontent.com/enarx/packet.com/master/enarx.ks
 
 kernel ${base}/images/pxeboot/vmlinuz inst.stage2=${base}/ ks=${ks} initrd=initrd.img console=ttyS1,115200 log_buf_len=2M
