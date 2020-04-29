@@ -97,6 +97,15 @@ Type=ether
 [Network]
 DHCP=yes
 EOF
+
+if ! [[ -d /home/sshd ]]; then
+   mv /etc/ssh /home/sshd
+else
+   rm -fr /etc/ssh
+fi
+
+ln -fs /home/sshd /etc/ssh
+
 %end
 
 %pre
