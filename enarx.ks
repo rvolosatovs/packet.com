@@ -78,6 +78,9 @@ podman
 %end
 
 %post
+# Enable the copr repo after install
+dnf -y copr enable npmccallum/enarx
+
 # Allow users in the wheel group to use sudo without a password
 install -o root -g root -m 600 /dev/stdin /etc/sudoers.d/nopasswd <<EOF
 %wheel	ALL=(ALL)	NOPASSWD: ALL
