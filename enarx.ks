@@ -56,12 +56,22 @@ chrony
 kernel
 zram
 
+bash-completion
+cpuid
+
+podman
 strace
 git
+make
+vim-enhanced
+qemu-system-x86
+
 gcc
 musl-gcc
-make
-podman
+clang
+ccache
+
+openssl-devel
 
 -dracut-config-generic
 -dracut-config-rescue
