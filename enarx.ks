@@ -114,6 +114,8 @@ Type=ether
 DHCP=yes
 EOF
 
+echo 'options kvm_amd sev=1' > /etc/modprobe.d/kvm-amd.conf
+
 if ! [[ -d /home/sshd ]]; then
    mv /etc/ssh /home/sshd
 else
