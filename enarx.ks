@@ -75,7 +75,6 @@ openssl-devel
 
 -dracut-config-generic
 -dracut-config-rescue
--xkeyboard-config
 -NetworkManager
 -usb_modeswitch
 -gnome-keyring
