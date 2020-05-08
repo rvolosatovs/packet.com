@@ -81,7 +81,6 @@ openssl-devel
 -gnome-keyring
 -iproute-tc
 -trousers
--alsa*
 -b43*
 -iwl*
 -ipw*
