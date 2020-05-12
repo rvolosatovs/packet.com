@@ -65,6 +65,7 @@ git
 make
 vim-enhanced
 qemu-system-x86
+tmux
 
 gcc
 musl-gcc
