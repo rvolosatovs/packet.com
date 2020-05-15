@@ -123,6 +123,13 @@ fi
 
 ln -fs /home/sshd /etc/ssh
 
+podman run -d \
+  -e GITHUB_REPOSITORY="https://github.com/enarx/enarx" \
+  -e GITHUB_TOKEN="$(cat PATH_TO_TOKEN)" \
+  -e RUNNER_NAME="$(cat PATH_TO_NAME)" \
+  -e REPLACE_EXISTING_RUNNER="true" \
+  joeyx22lm/docker-github-actions-runner
+
 %end
 
 %pre
