@@ -120,16 +120,51 @@ Type=ether
 DHCP=yes
 EOF
 
+# Enable SEV
 echo 'options kvm_amd sev=1' > /etc/modprobe.d/kvm-amd.conf
 
+# Persist SSH keys across installs
 if ! [[ -d /home/sshd ]]; then
    mv /etc/ssh /home/sshd
 else
    rm -fr /etc/ssh
 fi
-
 ln -fs /home/sshd /etc/ssh
 
+# Install GitHub Actions script
+cat >/usr/local/bin/gha <<\EOF
+#!/bin/bash
+
+[ -e /dev/sgx/enclave ] && dev="-v /dev/sgx/enclave:/dev/sgx/enclave"
+[ -e /dev/sev ] && dev="-v /dev/sev:/dev/sev"
+
+exec podman run --rm -t --name $1 -v "$HOME/$1":/srv:ro,Z $dev quay.io/enarx/gha-runner
+EOF
+chmod 755 /usr/local/bin/gha
+
+# Install GitHub Actions unit file
+cat >/etc/systemd/system/gha@.service <<EOF
+[Unit]
+Description=GitHub Actions - %i
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/home/gha/%i
+
+[Service]
+User=gha
+Group=gha
+Type=exec
+Restart=always
+RuntimeMaxSec=1d
+StandardOutput=journal
+WorkingDirectory=/home/gha
+ExecStart=/usr/local/bin/gha %i
+ExecStop=/usr/bin/podman stop %i
+
+[Install]
+WantedBy=multi-user.target
+EOF
+ln -s /etc/systemd/system/gha@.service /etc/systemd/system/multi-user.target.wants/gha@enarx.enarx.service
 %end
 
 %pre
