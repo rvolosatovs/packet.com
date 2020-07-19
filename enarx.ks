@@ -57,6 +57,7 @@ user --name=gha --lock --uid=1009 --gid=1009
 @hardware-support
 @core
 
+policycoreutils-python-utils
 glibc-langpack-en
 rng-tools
 chrony
@@ -165,6 +166,24 @@ ExecStop=/usr/bin/podman stop %i
 WantedBy=multi-user.target
 EOF
 ln -s /etc/systemd/system/gha@.service /etc/systemd/system/multi-user.target.wants/gha@enarx.enarx.service
+
+# Extend the SELinux policy to use device nodes in containers
+cat >/tmp/gha.te <<EOF
+module gha 1.0;
+
+require {
+	type device_t;
+	type container_t;
+	type sev_device_t;
+	class chr_file { getattr ioctl open read write };
+}
+
+allow container_t sev_device_t:chr_file { getattr ioctl open read write };
+allow container_t device_t:chr_file { getattr ioctl open read read };
+EOF
+checkmodule -M -m -o /tmp/gha.mod /tmp/gha.te
+semodule_package -o /tmp/gha.pp -m /tmp/gha.mod
+semodule -i /tmp/gha.pp
 %end
 
 %pre
