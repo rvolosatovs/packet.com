@@ -95,6 +95,44 @@ openssl-devel
 %end
 
 %post
+# Set hostname
+cat >/usr/local/bin/hostname.py <<EOF
+#!/usr/bin/python3
+
+import socket
+import sys
+import os
+
+hostnames = [
+    "coffeelake.sgx.lab.enarx.dev",
+    "rome.sev.lab.enarx.dev",
+]
+
+for hostname in hostnames:
+    s = socket.socket()
+    try:
+        s.bind((hostname, 12345))
+        assert os.system(f"hostnamectl set-hostname {hostname}") == 0
+        break
+    except OSError:
+        pass
+EOF
+chmod 755 /usr/local/bin/hostname.py
+cat >/etc/systemd/system/hostname.service <<EOF
+[Unit]
+Description=Hostname
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/hostname.py
+
+[Install]
+WantedBy=multi-user.target
+EOF
+ln -s /etc/systemd/system/hostname.service /etc/systemd/system/multi-user.target.wants/hostname.service
+
 # Enable the copr repo after install
 dnf -y copr enable npmccallum/enarx
 
