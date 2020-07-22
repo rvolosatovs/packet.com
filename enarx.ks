@@ -71,6 +71,7 @@ podman
 strace
 git
 make
+neovim
 vim-enhanced
 qemu-system-x86
 tmux
