@@ -218,11 +218,11 @@ require {
 	type device_t;
 	type container_t;
 	type sev_device_t;
-	class chr_file { getattr ioctl open read write };
+	class chr_file { execute getattr ioctl map open read write };
 }
 
 allow container_t sev_device_t:chr_file { getattr ioctl open read write };
-allow container_t device_t:chr_file { getattr ioctl open read write };
+allow container_t device_t:chr_file { execute getattr ioctl map open read write };
 EOF
 checkmodule -M -m -o /tmp/gha.mod /tmp/gha.te
 semodule_package -o /tmp/gha.pp -m /tmp/gha.mod
