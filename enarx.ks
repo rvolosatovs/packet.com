@@ -4,7 +4,7 @@ keyboard us
 timezone US/Eastern
 selinux --enforcing
 firewall --enabled
-services --enabled=sshd,systemd-networkd,systemd-resolved,chronyd,zram-swap
+services --enabled=sshd,chronyd,zram-swap
 network --bootproto=dhcp --device=link --activate
 reboot
 
@@ -85,7 +85,6 @@ openssl-devel
 
 -dracut-config-generic
 -dracut-config-rescue
--NetworkManager
 -usb_modeswitch
 -gnome-keyring
 -iproute-tc
@@ -147,17 +146,6 @@ echo 'KERNEL=="sev", MODE="0666"' > /etc/udev/rules.d/50-sev.rules
 cat > /etc/udev/rules.d/50-sgx.rules <<EOF
 SUBSYSTEM=="misc", KERNEL=="provision", MODE="0600"
 SUBSYSTEM=="misc", KERNEL=="enclave", MODE="0666"
-EOF
-
-# Use systemd-networkd and systemd-resolved
-ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-rm -f /etc/sysconfig/network-scripts/ifcfg-*
-cat >/etc/systemd/network/ether.network <<EOF
-[Match]
-Type=ether
-
-[Network]
-DHCP=yes
 EOF
 
 # Enable SEV
