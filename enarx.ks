@@ -168,7 +168,7 @@ set -e
 [ -e /dev/sgx/enclave ] && dev="-v /dev/sgx/enclave:/dev/sgx/enclave"
 [ -e /dev/sev ] && dev="-v /dev/sev:/dev/sev"
 
-podman stop -i $1
+podman stop -i $1 || true
 podman rm -i $1
 exec podman run --rm -t --name $1 -v "$HOME/$1":/srv:ro,Z $dev quay.io/enarx/gha-runner
 EOF
