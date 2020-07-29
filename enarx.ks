@@ -53,6 +53,10 @@ sshkey --username=kubkon "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAA
 
 user --name=gha --lock --uid=1009 --gid=1009
 
+user --name=axelsimon --lock --uid=1010 --gid=1010
+sshkey --username=axelsimon "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIHtDvFjl6IcrX2JPzwoRTcqwaqAzVn0xXL9WhKSOEMs axel@redhat.com"
+
+
 %packages
 @hardware-support
 @core
