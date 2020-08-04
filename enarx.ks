@@ -174,6 +174,7 @@ set -e
 
 podman stop -i $1 || true
 podman rm -i $1
+podman pull quay.io/enarx/gha-runner
 exec podman run --rm -t --name $1 -v "$HOME/$1":/srv:ro,Z $dev quay.io/enarx/gha-runner
 EOF
 chmod 755 /usr/local/bin/gha
