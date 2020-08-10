@@ -56,6 +56,9 @@ user --name=gha --lock --uid=1009 --gid=1009
 user --name=axelsimon --lock --uid=1010 --gid=1010
 sshkey --username=axelsimon "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIHtDvFjl6IcrX2JPzwoRTcqwaqAzVn0xXL9WhKSOEMs axel@redhat.com"
 
+user --name=jyotsna-penumaka --lock --uid=1011 --gid=1011
+sshkey --username=jyotsna-penumaka "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD17cj0v5pR3tGhZye/ue5SBo18kSLB/a27adkKNUAkzUnJa9/OGISAecbrN4ez/LGX0fyJIp1YTnP8orxVIffl1O4T6nxatJWY2D3X+pGovFIP1pKje7UNdW7AJuA5IodRawpzldIelrhW5xo55u0ExilTgWilDjcjkvXZPNnFuJJN1uSEYl21msVsCm3V19KIjYfmWw3UVm43cvkXt4MwGzDgobaXv6OUAsoWFGMKOLNmEwxa1n/W+Lofe+i04uMUKkjGyiTpzN6rHNeXnwt4vgJrg4Hf5ce5di9WghjbuX/SmLd8z9fq5RSo6G7fV6yi4nR3TGRraLPC35ghc3ZhVL/HQVlORB1iHf7Ig66kV1yKJk85YltRzkintNrO9BOUnlcHfC0VgxNAhHG5Mar0AVCfThf/1nrfnWKX/H0jYt6jq9CQXKfUO5+raJfdjj8saLKOSKCCpJ1AatskDd9q1SI6nzJAQcHVknhtSorU359Qf/9k3aU8cIPLkAxKdMGbzxT4X+jZKsugLVkqjDK3dlRUaxoFCfrQwzvxYwG+E7THgek4z4M3kiIAyeicAvyts/dWdTErfVVejgp/5AKMFVdDYhLVEqYedbLBVPGmx5eKyLG5gD9MPkx6vxU74gdSFuc0ddD1oF3/jmMKCnyQs1IniN/ysnpb5pnUvyLc7w== jyotsnap@bu.edu"
+
 
 %packages
 @hardware-support
