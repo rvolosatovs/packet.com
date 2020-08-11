@@ -204,7 +204,7 @@ ExecStop=/usr/bin/podman stop %i
 [Install]
 WantedBy=multi-user.target
 EOF
-ln -s /etc/systemd/system/gha@.service /etc/systemd/system/multi-user.target.wants/gha@enarx.enarx.service
+ln -s /etc/systemd/system/gha@.service /etc/systemd/system/multi-user.target.wants/gha@enarx.service
 
 # Extend the SELinux policy to use device nodes in containers
 cat >/tmp/gha.te <<EOF
