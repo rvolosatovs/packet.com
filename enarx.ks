@@ -172,8 +172,9 @@ cat >/usr/local/bin/gha <<\EOF
 
 set -e
 
-[ -e /dev/sgx/enclave ] && dev="-v /dev/sgx/enclave:/dev/sgx/enclave"
-[ -e /dev/sev ] && dev="-v /dev/sev:/dev/sev"
+[ -e /dev/sgx/enclave ] && dev="$dev -v /dev/sgx/enclave:/dev/sgx/enclave"
+[ -e /dev/sev ] && dev="$dev -v /dev/sev:/dev/sev"
+[ -e /dev/kvm ] && dev="$dev -v /dev/kvm:/dev/kvm"
 
 podman stop -i $1 || true
 podman rm -i $1
@@ -213,11 +214,13 @@ module gha 1.0;
 require {
 	type device_t;
 	type container_t;
+	type kvm_device_t;
 	type sev_device_t;
 	class chr_file { execute getattr ioctl map open read write };
 }
 
-allow container_t sev_device_t:chr_file { getattr ioctl open read write };
+allow container_t kvm_device_t:chr_file { execute getattr ioctl map open read write };
+allow container_t sev_device_t:chr_file { execute getattr ioctl map open read write };
 allow container_t device_t:chr_file { execute getattr ioctl map open read write };
 EOF
 checkmodule -M -m -o /tmp/gha.mod /tmp/gha.te
