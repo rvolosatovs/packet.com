@@ -82,6 +82,7 @@ neovim
 vim-enhanced
 qemu-system-x86
 tmux
+asciinema
 
 gcc
 musl-gcc
