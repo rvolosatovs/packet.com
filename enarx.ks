@@ -83,6 +83,7 @@ vim-enhanced
 qemu-system-x86
 tmux
 asciinema
+sevctl
 
 gcc
 musl-gcc
@@ -159,6 +160,10 @@ EOF
 # Enable SEV
 echo 'options kvm_amd sev=1' > /etc/modprobe.d/kvm-amd.conf
 
+# Create shared directory for caching SEV certificate chain
+mkdir -m 0755 -p /var/cache/amd-sev
+sevctl export --full /var/cache/amd-sev/chain
+
 # Persist SSH keys across installs
 if ! [[ -d /home/sshd ]]; then
    mv /etc/ssh /home/sshd
@@ -176,6 +181,7 @@ set -e
 [ -e /dev/sgx/enclave ] && dev="$dev -v /dev/sgx/enclave:/dev/sgx/enclave"
 [ -e /dev/sev ] && dev="$dev -v /dev/sev:/dev/sev"
 [ -e /dev/kvm ] && dev="$dev -v /dev/kvm:/dev/kvm"
+[ -e /dev/sev ] && [ -e /var/cache/amd-sev ] && dev="$dev -v /var/cache/amd-sev:/var/cache/amd-sev"
 
 podman stop -i $1 || true
 podman rm -i $1
