@@ -159,6 +159,10 @@ SUBSYSTEM=="misc", KERNEL=="provision", MODE="0600"
 SUBSYSTEM=="misc", KERNEL=="enclave", MODE="0666"
 EOF
 
+# Increase the memlock limit for SEV keeps (need to pin a large
+# number of pages)
+echo '* - memlock 8388608' > /etc/security/limits.d/sev.conf
+
 # Enable SEV
 echo 'options kvm_amd sev=1' > /etc/modprobe.d/kvm-amd.conf
 
