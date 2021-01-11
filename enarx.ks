@@ -207,6 +207,7 @@ ConditionPathExists=/home/gha/%i
 [Service]
 User=gha
 Group=gha
+LimitMEMLOCK=8G
 Type=exec
 Restart=always
 RuntimeMaxSec=1d
