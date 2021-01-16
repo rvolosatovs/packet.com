@@ -4,7 +4,7 @@ keyboard us
 timezone US/Eastern
 selinux --enforcing
 firewall --enabled
-services --enabled=sshd,chronyd,zram-swap
+services --enabled=sshd,chronyd
 network --bootproto=dhcp --device=link --activate
 reboot
 
@@ -71,7 +71,6 @@ glibc-langpack-en
 rng-tools
 chrony
 kernel
-zram
 
 bash-completion
 cpuid
