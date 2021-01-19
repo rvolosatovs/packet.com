@@ -221,24 +221,37 @@ EOF
 ln -s /etc/systemd/system/gha@.service /etc/systemd/system/multi-user.target.wants/gha@enarx.service
 
 # Extend the SELinux policy to use device nodes in containers
-cat >/tmp/gha.te <<EOF
+TMPDIR=$(mktemp -d)
+push "$TMPDIR"
+cat >gha.te <<EOF
 module gha 1.0;
 
 require {
 	type device_t;
 	type container_t;
+	type var_t;
 	type kvm_device_t;
 	type sev_device_t;
 	class chr_file { execute getattr ioctl map open read write };
+	class file { read open };
 }
 
 allow container_t kvm_device_t:chr_file { execute getattr ioctl map open read write };
 allow container_t sev_device_t:chr_file { execute getattr ioctl map open read write };
 allow container_t device_t:chr_file { execute getattr ioctl map open read write };
+allow container_t var_t:file { read open };
 EOF
-checkmodule -M -m -o /tmp/gha.mod /tmp/gha.te
-semodule_package -o /tmp/gha.pp -m /tmp/gha.mod
-semodule -i /tmp/gha.pp
+
+checkmodule -M -m -o gha.mod gha.te
+semodule_package -o gha.pp -m gha.mod
+semodule -i gha.pp
+
+pop
+rm -fr "$TMPDIR"
+
+# FIXME: the above rules for var_t do not seem to work
+chcon -Rt container_file_t /var/cache/amd-sev
+
 %end
 
 %pre
