@@ -153,10 +153,16 @@ EOF
 
 # Set SGX and SEV device node permissions
 echo 'KERNEL=="sev", MODE="0666"' > /etc/udev/rules.d/50-sev.rules
-cat > /etc/udev/rules.d/50-sgx.rules <<EOF
-SUBSYSTEM=="misc", KERNEL=="provision", MODE="0600"
-SUBSYSTEM=="misc", KERNEL=="enclave", MODE="0666"
+
+# The udev rules provided by aesmd 92-sgx-provision.rules are incorrect
+# overwrite them and provida backwards compatible symlinks
+cat > /etc/udev/rules.d/99-sgx.rules <<EOF
+SUBSYSTEM=="misc", KERNEL=="sgx_provision", SYMLINK="sgx/provision", MODE="0660", GROUP="sgx_prv"
+SUBSYSTEM=="misc", KERNEL=="sgx_enclave", SYMLINK="sgx/enclave", MODE="0666"
 EOF
+
+# aesmd wants a system group, but the scripts are doing it without `-r`
+groupadd -r sgx_prv
 
 # Increase the memlock limit for SEV keeps (need to pin a large
 # number of pages)
