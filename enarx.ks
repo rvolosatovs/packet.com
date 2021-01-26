@@ -85,11 +85,19 @@ qemu-system-x86
 tmux
 asciinema
 sevctl
+rsync
+bzip2
+nc
+lynx
+emacs
+wget
+curl
 
 gcc
 musl-gcc
 clang
 ccache
+gdb
 
 openssl-devel
 
