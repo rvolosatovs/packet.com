@@ -68,6 +68,9 @@ sshkey --username=tfanelli-rh "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCp5kWofFo1a
 user --name=wgwoods --lock --uid=1014 --gid=1014
 sshkey --username=wgwoods "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHRpVUArFsniJL50f+wGV1UZIck+0NxYRTd/BmzscB6r will@congru.us"
 
+user --name=puiterwijk --lock --uid=1015 --gid=1015
+sshkey --username=puiterwijk "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEHCUh9mRefyyqtxcNAs3zhe9aoZxxOJrHPlOhF76uLM puiterwijk@eternalblue"
+
 %packages
 @hardware-support
 @core
