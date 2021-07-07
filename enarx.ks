@@ -65,6 +65,9 @@ sshkey --username=mikecamel "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC1Ut9aGFH6vJZ
 user --name=tfanelli-rh --lock --uid=1013 --gid=1013
 sshkey --username=tfanelli-rh "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCp5kWofFo1am+vONgTs76Zs6qDmiOdAk2JDqptc/h400QvyzhQPX4mroLRHEQqJBPK9YeCk6pGQogxFx+q8qmUCQdXVWMlgNVcKP7OLk8l8SSl2csH/QuTjafa84JRhadanC8BZiLMsTKHQCn6nd+CfXpwKOiXmVGsyfv5ZbY03qEitMoYNiX28lUTvmTfTO1STcOvJLtx9z068QSaaDM8es69iJ3IjO3oRYAVb3AXDO6DCCdWMJ5F6HYKsfuyN5eA7F9V6urQs3Rlw/QLJQfnC1DnbNXOoGBmmw+2P8SnFP9xt+DzWxz/xGNmXgQ94ePaLmu2xYjd9qop9/0yjvpUiM/4qAwN1ayO+EfKSnZUkZsvecl6MND+dgKgqxFXHFpKrpJp4/oWWcq6vlhRQ1hrrnftFVkKtTSMMnhC7qMUQloy4ky4invVJP5fiMbmTm3IzLiRXX3wSd7BgdV8PWKor8rR7tjH8MmYEeMeAtjczwbEnjVAPGMI42Z6pXJEXUDiqdlNEFujeyWU8IzYZxB/MiWymtcODpvFYI/FROb7kbPFs1/6tHLi6zNylCgcEQ1rmhW3eZAAIMsoEcq2tZBgP4ur1w/5d59EapmUabez2/XBTSoiYgs4BeJXX7XseJCT6JhIwbPX84+GCleLCHPAgqbgPAjqs8F5SL3QHPZCcQ== tfanelli@redhat.com"
 
+user --name=wgwoods --lock --uid=1014 --gid=1014
+sshkey --username=wgwoods "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHRpVUArFsniJL50f+wGV1UZIck+0NxYRTd/BmzscB6r will@congru.us"
+
 %packages
 @hardware-support
 @core
